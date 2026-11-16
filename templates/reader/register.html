@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Đăng ký thẻ độc giả online - RegisterCardFrm{% endblock %}
+
+{% block content %}
+<div class="frm-box" style="max-width: 650px; margin: 1.5rem auto;">
+  <div class="frm-header">
+    <h2 class="frm-title">ĐĂNG KÝ THẺ ĐỘC GIẢ ONLINE</h2>
+    <span style="font-size: 0.85rem; color: #64748b;">(RegisterCardFrm)</span>
+  </div>
+  
+  <div class="frm-body">
+    <form method="POST" action="{{ url_for('reader_register') }}">
+      <!-- Thông tin độc giả -->
+      <fieldset class="fieldset-box">
+        <legend class="fieldset-legend"><i class="fa-solid fa-user"></i> Thông tin độc giả</legend>
+        
+        <div class="form-group">
+          <label for="txtFullname">Họ tên: <span style="color:red">*</span></label>
+          <input type="text" class="form-control" id="txtFullname" name="fullname" 
+                 value="{{ form_data.fullname if form_data else '' }}" 
+                 placeholder="Nhập họ và tên đầy đủ" required>
+        </div>
+
+        <div class="form-group">
+          <label for="txtBirth">Ngày sinh: <span style="color:red">*</span></label>
+          <input type="date" class="form-control" id="txtBirth" name="birth" 
+                 value="{{ form_data.birth if form_data else '' }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="txtAddress">Địa chỉ: <span style="color:red">*</span></label>
+          <input type="text" class="form-control" id="txtAddress" name="address" 
+                 value="{{ form_data.address if form_data else '' }}" 
+                 placeholder="Địa chỉ liên hệ" required>
+        </div>
+
+        <div class="form-group">
+          <label for="txtEmail">Email: <span style="color:red">*</span></label>
+          <input type="email" class="form-control" id="txtEmail" name="email" 
+                 value="{{ form_data.email if form_data else '' }}" 
+                 placeholder="vi-du@ptit.edu.vn" required>
+        </div>
+
+        <div class="form-group">
+          <label for="txtPhone">Điện thoại: <span style="color:red">*</span></label>
+          <input type="tel" class="form-control" id="txtPhone" name="phone" 
+                 value="{{ form_data.phone if form_data else '' }}" 
+                 placeholder="Số điện thoại cá nhân" required>
+        </div>
+      </fieldset>
+
+      <!-- Thông tin thẻ -->
+      <fieldset class="fieldset-box">
+        <legend class="fieldset-legend"><i class="fa-solid fa-id-card"></i> Thông tin thẻ</legend>
+
+        <div class="form-group">
+          <label for="txtID">Mã thẻ:</label>
+          <input type="text" class="form-control" id="txtID" name="card_id" 
+                 value="{{ generated_code }} (tự sinh)" readonly>
+        </div>
+
+        <div class="form-group">
+          <label for="txtIssueDate">Ngày đăng ký:</label>
+          <input type="text" class="form-control" id="txtIssueDate" name="issue_date" 
+                 value="{{ issue_date }}" readonly>
+        </div>
+
+        <div class="form-group">
+          <label for="txtExpiryDate">Ngày hết hạn: <span style="color:red">*</span></label>
+          <input type="date" class="form-control" id="txtExpiryDate" name="expiry_date" 
+                 value="{{ expiry_date }}" required>
+        </div>
+      </fieldset>
+
+      <!-- Action Buttons -->
+      <div class="btn-group" style="justify-content: flex-end;">
+        <a href="{{ url_for('reader_home') }}" class="btn btn-secondary" id="btnCancel">
+          <i class="fa-solid fa-xmark"></i> Hủy
+        </a>
+        <button type="submit" class="btn btn-primary" id="btnSave">
+          <i class="fa-solid fa-floppy-disk"></i> Lưu
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Thông báo kết quả đăng ký thành công (như trang 23) -->
+{% if success_card_code %}
+<div class="modal-overlay" id="successModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <i class="fa-solid fa-circle-check" style="color: #10b981; margin-right: 6px;"></i>
+      Thông báo
+    </div>
+    <div class="modal-body">
+      <p>Đăng ký thẻ độc giả thành công!</p>
+      <p style="margin-top: 10px;">Mã thẻ của bạn:</p>
+      <span class="card-code-highlight">{{ success_card_code }}</span>
+    </div>
+    <div class="modal-footer">
+      <a href="{{ url_for('reader_home') }}" class="btn btn-primary" style="min-width: 100px;">OK</a>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

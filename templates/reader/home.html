@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Trang chủ Độc giả - ReaderHomeFrm{% endblock %}
+
+{% block content %}
+<div class="frm-box" style="max-width: 500px; margin: 2rem auto;">
+  <div class="frm-header" style="justify-content: center; text-align: center;">
+    <div>
+      <h2 class="frm-title">LibMan</h2>
+      <p style="font-size: 1.1rem; font-weight: 600; color: #334155; margin-top: 6px;">
+        Xin chào, <span>{{ reader_name or 'Trần Văn Độc Giả' }}</span>
+      </p>
+    </div>
+  </div>
+  <div class="frm-body">
+    <div class="menu-btn-list">
+      <button class="menu-btn" type="button" onclick="alert('Chức năng Tìm kiếm tài liệu (ngoài phạm vi 2 module yêu cầu).')">
+        <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm tài liệu
+      </button>
+
+      <button class="menu-btn" type="button" onclick="alert('Chức năng Mượn tài liệu (ngoài phạm vi 2 module yêu cầu).')">
+        <i class="fa-solid fa-book"></i> Mượn tài liệu
+      </button>
+
+      <button class="menu-btn" type="button" onclick="alert('Chức năng Trả tài liệu (ngoài phạm vi 2 module yêu cầu).')">
+        <i class="fa-solid fa-rotate-left"></i> Trả tài liệu
+      </button>
+
+      <!-- Key required action in Module 1 -->
+      <a href="{{ url_for('reader_register') }}" class="menu-btn primary" id="btnRegisterCard">
+        <i class="fa-solid fa-address-card"></i> Đăng ký thẻ độc giả
+      </a>
+
+      <a href="{{ url_for('index') }}" class="menu-btn" style="border-color: #cbd5e1; color: #64748b;">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

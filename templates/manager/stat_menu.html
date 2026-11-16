@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Báo cáo thống kê - StatMenuFrm{% endblock %}
+
+{% block content %}
+<div class="frm-box" style="max-width: 550px; margin: 2rem auto;">
+  <div class="frm-header" style="justify-content: center; text-align: center;">
+    <h2 class="frm-title">BÁO CÁO THỐNG KÊ</h2>
+  </div>
+  <div class="frm-body">
+    <div class="menu-btn-list">
+      <button class="menu-btn" type="button" onclick="alert('Báo cáo ngoài phạm vi 2 module yêu cầu.')">
+        <i class="fa-solid fa-book-bookmark"></i> Thống kê tình trạng tài liệu
+      </button>
+
+      <button class="menu-btn" type="button" onclick="alert('Báo cáo ngoài phạm vi 2 module yêu cầu.')">
+        <i class="fa-solid fa-users"></i> Thống kê độc giả theo lượt mượn
+      </button>
+
+      <!-- Key required action in Module 2: btnSupplierStat -->
+      <a href="{{ url_for('supplier_stat') }}" class="menu-btn primary" id="btnSupplierStat">
+        <i class="fa-solid fa-truck-ramp-box"></i> Thống kê nhà cung cấp theo số lượng nhập
+      </a>
+
+      <!-- btnBack -->
+      <a href="{{ url_for('manager_home') }}" class="menu-btn" style="border-color: #cbd5e1; color: #475569;" id="btnBack">
+        <i class="fa-solid fa-arrow-left"></i> Quay lại
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

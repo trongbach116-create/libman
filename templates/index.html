@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Trang chủ - Hệ thống LibMan{% endblock %}
+
+{% block content %}
+<div class="frm-box" style="max-width: 680px; margin: 3rem auto;">
+  <div class="frm-header" style="justify-content: center; text-align: center;">
+    <div>
+      <h2 class="frm-title" style="font-size: 1.4rem;">HỆ THỐNG QUẢN LÝ THƯ VIỆN ĐẠI HỌC</h2>
+      <p style="color: #64748b; font-size: 0.95rem; margin-top: 4px;">Subject No. 06 - LibMan (2 Module Thiết Yếu)</p>
+    </div>
+  </div>
+  <div class="frm-body" style="padding: 2.5rem 2rem;">
+    <p style="text-align: center; margin-bottom: 2rem; color: #475569;">
+      Vui lòng chọn phân hệ làm việc theo kịch bản bài tập:
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+      <a href="{{ url_for('reader_home') }}" style="text-decoration: none; color: inherit;">
+        <div style="border: 2px solid #3b82f6; border-radius: 8px; padding: 1.5rem; text-align: center; background: #eff6ff; transition: all 0.2s;" onmouseover="this.style.boxShadow='0 6px 12px rgba(59,130,246,0.2)'" onmouseout="this.style.boxShadow='none'">
+          <i class="fa-solid fa-id-card" style="font-size: 2.5rem; color: #2563eb; margin-bottom: 1rem;"></i>
+          <h3 style="color: #1e3a8a; font-size: 1.15rem; margin-bottom: 0.5rem;">Module 1</h3>
+          <p style="font-weight: 600; margin-bottom: 0.5rem;">Độc giả Đăng ký thẻ</p>
+          <span style="font-size: 0.85rem; color: #64748b;">(Reader registers for a reader card)</span>
+        </div>
+      </a>
+
+      <a href="{{ url_for('manager_home') }}" style="text-decoration: none; color: inherit;">
+        <div style="border: 2px solid #059669; border-radius: 8px; padding: 1.5rem; text-align: center; background: #f0fdf4; transition: all 0.2s;" onmouseover="this.style.boxShadow='0 6px 12px rgba(5,150,105,0.2)'" onmouseout="this.style.boxShadow='none'">
+          <i class="fa-solid fa-chart-column" style="font-size: 2.5rem; color: #059669; margin-bottom: 1rem;"></i>
+          <h3 style="color: #065f46; font-size: 1.15rem; margin-bottom: 0.5rem;">Module 2</h3>
+          <p style="font-weight: 600; margin-bottom: 0.5rem;">Quản lý Thống kê NCC</p>
+          <span style="font-size: 0.85rem; color: #64748b;">(Management staff views supplier statistics)</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

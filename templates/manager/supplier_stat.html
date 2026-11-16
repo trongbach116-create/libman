@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Thống kê nhà cung cấp - SupplierStatFrm{% endblock %}
+
+{% block content %}
+<div class="frm-box">
+  <div class="frm-header">
+    <h2 class="frm-title">THỐNG KÊ NHÀ CUNG CẤP THEO SỐ LƯỢNG NHẬP</h2>
+    <span style="font-size: 0.85rem; color: #64748b;">(SupplierStatFrm)</span>
+  </div>
+
+  <div class="frm-body">
+    <!-- Filter Bar (txtStartDate, txtEndDate, btnView) -->
+    <form method="GET" action="{{ url_for('supplier_stat') }}" class="filter-bar">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <label for="txtStartDate"><strong>Từ ngày:</strong></label>
+        <input type="date" id="txtStartDate" name="start_date" value="{{ start_date }}" required>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <label for="txtEndDate"><strong>Đến ngày:</strong></label>
+        <input type="date" id="txtEndDate" name="end_date" value="{{ end_date }}" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="btnView">
+        <i class="fa-solid fa-magnifying-glass"></i> Xem
+      </button>
+
+      {% if stats is not none %}
+      <span style="color: #64748b; font-size: 0.9rem; margin-left: auto;">
+        Khoảng lọc: <strong>{{ display_start }}</strong> đến <strong>{{ display_end }}</strong>
+      </span>
+      {% endif %}
+    </form>
+
+    <!-- Table tblSupplierStat -->
+    <div class="table-responsive">
+      <table class="data-table" id="tblSupplierStat">
+        <thead>
+          <tr>
+            <th class="text-center" style="width: 60px;">STT</th>
+            <th class="text-center" style="width: 100px;">Mã NCC</th>
+            <th>Tên nhà cung cấp</th>
+            <th class="text-center" style="width: 120px;">Số hóa đơn</th>
+            <th class="text-right" style="width: 140px;">Tổng SL nhập</th>
+            <th class="text-right" style="width: 180px;">Tổng tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if stats and stats|length > 0 %}
+            {% for s in stats %}
+            <tr class="clickable" onclick="window.location.href='{{ url_for('invoice_list', supplier_id=s.supplierID, start_date=start_date, end_date=end_date) }}'" title="Click để xem chi tiết danh sách hóa đơn">
+              <td class="text-center">{{ loop.index }}</td>
+              <td class="text-center"><strong>{{ s.code }}</strong></td>
+              <td>
+                <span style="color: #1d4ed8; font-weight: 600;">{{ s.name }}</span>
+                <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: #94a3b8; margin-left: 6px;"></i>
+              </td>
+              <td class="text-center">{{ s.totalInvoice }}</td>
+              <td class="text-right">{{ "{:,}".format(s.totalQuantity).replace(',', '.') }}</td>
+              <td class="text-right font-mono" style="font-weight: 600;">{{ "{:,.0f}".format(s.totalAmount).replace(',', '.') }} đ</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="6" class="text-center" style="padding: 2.5rem; color: #64748b;">
+                <i class="fa-solid fa-inbox" style="font-size: 2rem; margin-bottom: 0.5rem; display: block; color: #cbd5e1;"></i>
+                {% if searched %}
+                  Không có nhà cung cấp nào nhập hàng trong khoảng thời gian này.
+                {% else %}
+                  Vui lòng chọn khoảng thời gian và nhấn nút <strong>"Xem"</strong> để hiển thị thống kê.
+                {% endif %}
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if stats and stats|length > 0 %}
+      <p class="table-hint">(Click vào một dòng để xem danh sách hóa đơn nhập)</p>
+    {% endif %}
+
+    <!-- btnBack -->
+    <div class="btn-group">
+      <a href="{{ url_for('stat_menu') }}" class="btn btn-secondary" id="btnBack">
+        <i class="fa-solid fa-arrow-left"></i> Quay lại
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

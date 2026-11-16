@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Danh sách hóa đơn nhập - ImportInvoiceListFrm{% endblock %}
+
+{% block content %}
+<div class="frm-box">
+  <div class="frm-header">
+    <h2 class="frm-title">DANH SÁCH HÓA ĐƠN NHẬP</h2>
+    <span style="font-size: 0.85rem; color: #64748b;">(ImportInvoiceListFrm)</span>
+  </div>
+
+  <div class="frm-body">
+    <!-- Supplier & Date info bar -->
+    <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+      <div style="font-size: 1.1rem; margin-bottom: 0.35rem;">
+        <span style="color: #64748b;">Nhà cung cấp:</span> 
+        <strong style="color: #1e3a8a;">{{ supplier.name if supplier else 'Nhà sách Giáo dục' }}</strong>
+      </div>
+      <div style="font-size: 0.95rem; color: #475569;">
+        <span style="color: #64748b;">Thời gian:</span> 
+        <strong>{{ display_start }}</strong> - <strong>{{ display_end }}</strong>
+      </div>
+    </div>
+
+    <!-- Table tblInvoice -->
+    <div class="table-responsive">
+      <table class="data-table" id="tblInvoice">
+        <thead>
+          <tr>
+            <th class="text-center" style="width: 60px;">STT</th>
+            <th class="text-center" style="width: 120px;">Mã HĐ</th>
+            <th class="text-center" style="width: 140px;">Ngày nhập</th>
+            <th>Nhân viên nhập</th>
+            <th class="text-right" style="width: 120px;">Số lượng</th>
+            <th class="text-right" style="width: 160px;">Tổng tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if invoices and invoices|length > 0 %}
+            {% for inv in invoices %}
+            <tr class="clickable" onclick="window.location.href='{{ url_for('invoice_detail', invoice_id=inv.id, supplier_id=supplier.ID, start_date=start_date, end_date=end_date) }}'" title="Click để xem chi tiết hóa đơn">
+              <td class="text-center">{{ loop.index }}</td>
+              <td class="text-center"><strong style="color: #0369a1;">{{ inv.code }}</strong></td>
+              <td class="text-center">{{ inv.importDate }}</td>
+              <td>{{ inv.staffName }}</td>
+              <td class="text-right">{{ "{:,}".format(inv.totalQuantity).replace(',', '.') }}</td>
+              <td class="text-right" style="font-weight: 600;">{{ "{:,.0f}".format(inv.totalAmount).replace(',', '.') }} đ</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="6" class="text-center" style="padding: 2rem; color: #64748b;">
+                Không tìm thấy hóa đơn nhập nào của nhà cung cấp này trong khoảng thời gian đã chọn.
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if invoices and invoices|length > 0 %}
+      <p class="table-hint">(Click vào một dòng để xem chi tiết hóa đơn)</p>
+    {% endif %}
+
+    <!-- btnBack -->
+    <div class="btn-group">
+      <a href="{{ url_for('supplier_stat', start_date=start_date, end_date=end_date) }}" class="btn btn-secondary" id="btnBack">
+        <i class="fa-solid fa-arrow-left"></i> Quay lại
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

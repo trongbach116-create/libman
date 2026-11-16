@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Chi tiết hóa đơn nhập - ImportInvoiceDetailFrm{% endblock %}
+
+{% block content %}
+<div class="frm-box">
+  <div class="frm-header">
+    <h2 class="frm-title">CHI TIẾT HÓA ĐƠN NHẬP</h2>
+    <span style="font-size: 0.85rem; color: #64748b;">(ImportInvoiceDetailFrm)</span>
+  </div>
+
+  <div class="frm-body">
+    <!-- Invoice metadata grid -->
+    <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1.25rem; margin-bottom: 1.25rem;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; row-gap: 0.75rem; column-gap: 2rem;">
+        <div>
+          <span style="color: #64748b; font-size: 0.95rem;">Mã hóa đơn:</span>
+          <strong style="color: #0369a1; font-size: 1.1rem; margin-left: 0.5rem;">{{ invoice.code }}</strong>
+        </div>
+        <div>
+          <span style="color: #64748b; font-size: 0.95rem;">Nhà cung cấp:</span>
+          <strong style="color: #1e3a8a; font-size: 1.05rem; margin-left: 0.5rem;">{{ invoice.supplierName }}</strong>
+        </div>
+        <div>
+          <span style="color: #64748b; font-size: 0.95rem;">Ngày nhập:</span>
+          <strong style="color: #334155; margin-left: 0.5rem;">{{ invoice.importDate }}</strong>
+        </div>
+        <div>
+          <span style="color: #64748b; font-size: 0.95rem;">Nhân viên nhập:</span>
+          <strong style="color: #334155; margin-left: 0.5rem;">{{ invoice.staffName }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table tblImportedDoc -->
+    <div class="table-responsive">
+      <table class="data-table" id="tblImportedDoc">
+        <thead>
+          <tr>
+            <th class="text-center" style="width: 50px;">STT</th>
+            <th class="text-center" style="width: 100px;">Mã TL</th>
+            <th>Tên tài liệu</th>
+            <th class="text-center" style="width: 120px;">Loại</th>
+            <th class="text-right" style="width: 80px;">SL</th>
+            <th class="text-right" style="width: 140px;">Đơn giá</th>
+            <th class="text-right" style="width: 160px;">Thành tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if details and details|length > 0 %}
+            {% for doc in details %}
+            <tr>
+              <td class="text-center">{{ loop.index }}</td>
+              <td class="text-center"><strong>{{ doc.docCode }}</strong></td>
+              <td style="font-weight: 500;">{{ doc.docName }}</td>
+              <td class="text-center">
+                <span style="background: #e2e8f0; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem;">{{ doc.docType }}</span>
+              </td>
+              <td class="text-right">{{ doc.quantity }}</td>
+              <td class="text-right">{{ "{:,.0f}".format(doc.unitPrice).replace(',', '.') }} đ</td>
+              <td class="text-right" style="font-weight: 600;">{{ "{:,.0f}".format(doc.amount).replace(',', '.') }} đ</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="7" class="text-center" style="padding: 2rem; color: #64748b;">
+                Không có chi tiết tài liệu trong hóa đơn này.
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Summary Total (SL & Amount) -->
+    <div class="summary-bar">
+      <div class="summary-item">
+        <span class="label">Tổng số lượng:</span>
+        <span class="value">{{ "{:,}".format(invoice.totalQuantity).replace(',', '.') }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Tổng tiền:</span>
+        <span class="value highlight">{{ "{:,.0f}".format(invoice.totalAmount).replace(',', '.') }} VNĐ</span>
+      </div>
+    </div>
+
+    <!-- btnBack -->
+    <div class="btn-group">
+      <a href="{{ url_for('invoice_list', supplier_id=supplier_id, start_date=start_date, end_date=end_date) }}" class="btn btn-secondary" id="btnBack">
+        <i class="fa-solid fa-arrow-left"></i> Quay lại
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

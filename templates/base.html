@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Hệ thống Quản lý Thư viện Đại học - LibMan{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="{{ url_for('index') }}" class="brand">
+      <i class="fa-solid fa-book-open-reader"></i>
+      <span>LibMan - Thư Viện Đại Học</span>
+    </a>
+    <div class="nav-links">
+      <a href="{{ url_for('reader_home') }}" class="nav-link {% if active_module == 'reader' %}active{% endif %}">
+        <i class="fa-solid fa-user-graduate"></i> Phân hệ Độc giả
+      </a>
+      <a href="{{ url_for('manager_home') }}" class="nav-link {% if active_module == 'manager' %}active{% endif %}">
+        <i class="fa-solid fa-chart-line"></i> Phân hệ Quản lý
+      </a>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            <i class="fa-solid {% if category == 'danger' %}fa-triangle-exclamation{% elif category == 'success' %}fa-circle-check{% else %}fa-circle-info{% endif %}"></i>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+  <footer>
+    <p>LibMan &copy; 2026 - Hệ Thống Quản Lý Thư Viện Đại Học (Subject No. 06)</p>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
